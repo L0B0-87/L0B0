@@ -1,0 +1,566 @@
+/* ---------------------------------------------------------
+   L0B0 — index page
+   Token system
+--------------------------------------------------------- */
+:root {
+  --paper: #f3f1ea;
+  --ink: #0a0a0a;
+  --ink-soft: rgba(10, 10, 10, 0.72);
+  --line: rgba(10, 10, 10, 0.24);
+  --line-soft: rgba(10, 10, 10, 0.14);
+
+  --panel-bg: #0a0a0a;
+  --panel-ink: #f3f1ea;
+
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+
+  --stripe-w: 56px;
+  --panel-w: 220px;
+  --edge: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---------------------------------------------------------
+   Frame / grid
+--------------------------------------------------------- */
+.frame {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--stripe-w) 1fr var(--panel-w);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* left diagonal stripe */
+.stripe {
+  grid-column: 1;
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--ink) 0px,
+    var(--ink) 9px,
+    transparent 9px,
+    transparent 18px
+  );
+  border-right: 1px solid var(--line);
+}
+
+/* ---------------------------------------------------------
+   Corner registration marks
+--------------------------------------------------------- */
+.corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  z-index: 5;
+}
+
+.corner::before,
+.corner::after {
+  content: "";
+  position: absolute;
+}
+
+.corner::before {
+  inset: 0;
+  border: 1px solid var(--ink);
+  opacity: 0.55;
+}
+
+.corner::after {
+  width: 4px;
+  height: 4px;
+  background: var(--ink);
+  top: -2px;
+  left: -2px;
+}
+
+.corner--tl {
+  top: var(--edge);
+  left: var(--edge);
+}
+.corner--tr {
+  top: var(--edge);
+  right: calc(var(--panel-w) + var(--edge));
+}
+.corner--bl {
+  bottom: var(--edge);
+  left: var(--edge);
+}
+.corner--br {
+  bottom: var(--edge);
+  right: calc(var(--panel-w) + var(--edge));
+}
+
+/* ---------------------------------------------------------
+   Content column
+--------------------------------------------------------- */
+.content {
+  grid-column: 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 40px);
+  padding: clamp(40px, 6vw, 64px) clamp(28px, 5vw, 64px);
+  min-height: 100vh;
+}
+
+/* HUD header */
+.hud-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.hud-id {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hud-line {
+  display: block;
+  line-height: 1.6;
+}
+
+#clock {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dotgrid {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 auto;
+  background-image: radial-gradient(var(--ink-soft) 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.4;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 40vh;
+  padding: 24px 0;
+}
+
+.crosshair-h,
+.crosshair-v {
+  position: absolute;
+  background: repeating-linear-gradient(
+    to right,
+    var(--line) 0 6px,
+    transparent 6px 12px
+  );
+}
+
+.crosshair-h {
+  top: 50%;
+  left: -56px;
+  right: -220px;
+  height: 1px;
+  transform-origin: center;
+  animation: growX 0.8s ease both;
+  animation-delay: 0.05s;
+}
+
+.crosshair-v {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--line) 0 6px,
+    transparent 6px 12px
+  );
+  transform-origin: center;
+  animation: growY 0.8s ease both;
+  animation-delay: 0.05s;
+}
+
+.wordmark {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(4.2rem, 16vw, 13rem);
+  line-height: 0.82;
+  letter-spacing: -0.01em;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.12s;
+}
+
+.tagline {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 460px;
+  margin-top: clamp(16px, 3vw, 28px);
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.tagline span {
+  display: block;
+  opacity: 0;
+  animation: fadeUp 0.6s ease both;
+}
+.tagline span:nth-child(1) {
+  animation-delay: 0.28s;
+}
+.tagline span:nth-child(2) {
+  animation-delay: 0.36s;
+}
+.tagline span:nth-child(3) {
+  animation-delay: 0.44s;
+}
+
+/* Doors / nav */
+.doors {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+
+.door {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 20px);
+  padding: clamp(14px, 2.4vw, 20px) 4px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink);
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.5s ease both;
+  transition: padding-left 0.25s ease, background 0.25s ease;
+}
+
+.door:nth-child(1) {
+  animation-delay: 0.52s;
+}
+.door:nth-child(2) {
+  animation-delay: 0.6s;
+}
+.door:nth-child(3) {
+  animation-delay: 0.68s;
+}
+
+.door::before {
+  content: attr(data-glitch);
+  position: absolute;
+  left: clamp(64px, 8vw, 92px);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.3rem, 3vw, 2.1rem);
+  color: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+.door.is-glitching::before {
+  animation: doorGlitch 0.4s steps(2, end) 1;
+}
+
+.door:hover,
+.door:focus-visible {
+  padding-left: 16px;
+  background: rgba(10, 10, 10, 0.04);
+}
+
+.door:focus-visible {
+  outline: 1px dashed var(--ink);
+  outline-offset: -4px;
+}
+
+.door__index {
+  width: 44px;
+  flex: 0 0 auto;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+.door__label {
+  flex: 1;
+  font-family: var(--display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.3rem, 3vw, 2.1rem);
+  letter-spacing: 0.01em;
+}
+
+.door__icon {
+  font-size: 18px;
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+}
+
+.door:hover .door__icon,
+.door:focus-visible .door__icon {
+  transform: translateX(8px);
+}
+
+/* Footer */
+.hud-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------------------------------------------------------
+   Right HUD panel
+--------------------------------------------------------- */
+.panel {
+  grid-column: 3;
+  position: relative;
+  background: var(--panel-bg);
+  overflow: hidden;
+  border-left: 1px solid var(--line);
+}
+
+.panel__hex {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.panel__scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(243, 241, 234, 0.05) 0px,
+    rgba(243, 241, 234, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.panel__label {
+  position: absolute;
+  right: 14px;
+  bottom: 24px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--panel-ink);
+  opacity: 0.55;
+}
+
+/* ---------------------------------------------------------
+   Cursor-follow crosshair (desktop, pointer-capable only)
+--------------------------------------------------------- */
+.cursor-follow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  mix-blend-mode: difference;
+  z-index: 50;
+}
+
+.cursor-follow::before,
+.cursor-follow::after {
+  content: "";
+  position: absolute;
+  background: var(--ink);
+}
+.cursor-follow::before {
+  left: 50%;
+  top: -6px;
+  bottom: -6px;
+  width: 1px;
+  transform: translateX(-50%);
+}
+.cursor-follow::after {
+  top: 50%;
+  left: -6px;
+  right: -6px;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+/* ---------------------------------------------------------
+   Keyframes
+--------------------------------------------------------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes growX {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes growY {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes doorGlitch {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) translate(0, 0);
+  }
+  25% {
+    opacity: 0.7;
+    transform: translateY(-50%) translate(-3px, 1px);
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(-50%) translate(2px, -1px);
+  }
+  75% {
+    opacity: 0.55;
+    transform: translateY(-50%) translate(-2px, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) translate(0, 0);
+  }
+}
+
+/* ---------------------------------------------------------
+   Reduced motion
+--------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .wordmark,
+  .tagline span,
+  .door {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .crosshair-h,
+  .crosshair-v {
+    transform: none !important;
+  }
+}
+
+/* ---------------------------------------------------------
+   Mobile layout
+--------------------------------------------------------- */
+@media (max-width: 860px) {
+  :root {
+    --stripe-w: 0px;
+    --panel-w: 0px;
+    --edge: 14px;
+  }
+
+  .frame {
+    grid-template-columns: 1fr;
+  }
+
+  .stripe,
+  .panel {
+    display: none;
+  }
+
+  .corner--tr,
+  .corner--br {
+    right: var(--edge);
+  }
+
+  .content {
+    grid-column: 1;
+    padding: 32px 20px;
+    gap: 28px;
+  }
+
+  .hero {
+    min-height: 46vh;
+  }
+
+  .crosshair-h {
+    left: -20px;
+    right: -20px;
+  }
+
+  .wordmark {
+    font-size: clamp(3.4rem, 20vw, 6.5rem);
+  }
+
+  .door::before {
+    display: none; /* skip the print-misregister glitch layer on touch */
+  }
+
+  .cursor-follow {
+    display: none;
+  }
+}

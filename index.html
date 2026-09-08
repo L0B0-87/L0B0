@@ -1,1 +1,109 @@
-<h1>helo biyo</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>L0B0 — Index</title>
+<meta name="description" content="L0B0 — music, 3D renders, and web work." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="frame">
+
+    <!-- corner registration marks -->
+    <span class="corner corner--tl" aria-hidden="true"></span>
+    <span class="corner corner--tr" aria-hidden="true"></span>
+    <span class="corner corner--bl" aria-hidden="true"></span>
+    <span class="corner corner--br" aria-hidden="true"></span>
+
+    <!-- left diagonal stripe column -->
+    <div class="stripe" aria-hidden="true"></div>
+
+    <!-- main content column -->
+    <main class="content">
+
+      <header class="hud-header">
+        <div class="hud-id">
+          <span class="hud-line">SYS.ID // L0B0-01</span>
+          <span class="hud-line">STATUS <b id="clock">--:--:--</b></span>
+        </div>
+        <div class="dotgrid" aria-hidden="true"></div>
+      </header>
+
+      <div class="hero">
+        <div class="crosshair-h" aria-hidden="true"></div>
+        <div class="crosshair-v" aria-hidden="true"></div>
+
+        <h1 class="wordmark">L0B0</h1>
+
+        <p class="tagline">
+          <span>Multidisciplinary maker.</span>
+          <span>Sound, form, and interface.</span>
+          <span>Pick a channel below.</span>
+        </p>
+      </div>
+
+      <nav class="doors" aria-label="Sections">
+        <a class="door" href="music/index.html" data-glitch="MUSIC">
+          <span class="door__index">N.01</span>
+          <span class="door__label">Music</span>
+          <span class="door__icon" aria-hidden="true">→</span>
+        </a>
+        <a class="door" href="renders/index.html" data-glitch="3D RENDERS">
+          <span class="door__index">N.02</span>
+          <span class="door__label">3D Renders</span>
+          <span class="door__icon" aria-hidden="true">→</span>
+        </a>
+        <a class="door" href="web/index.html" data-glitch="WEB WORK">
+          <span class="door__index">N.03</span>
+          <span class="door__label">Web Work</span>
+          <span class="door__icon" aria-hidden="true">→</span>
+        </a>
+      </nav>
+
+      <footer class="hud-footer">
+        <span class="hud-line">L0B0 // SELECTED WORK</span>
+        <span class="hud-line" id="year"></span>
+      </footer>
+
+    </main>
+
+    <!-- right abstract HUD panel (no personal imagery) -->
+    <aside class="panel" aria-hidden="true">
+      <svg class="panel__hex" viewBox="0 0 200 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="hexPattern" width="40" height="34.64" patternUnits="userSpaceOnUse">
+            <polygon
+              points="20,0 40,10 40,25 20,34.64 0,25 0,10"
+              fill="none"
+              stroke="rgba(243,241,234,0.16)"
+              stroke-width="1"
+            />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hexPattern)" />
+        <circle cx="100" cy="180" r="46" fill="none" stroke="rgba(243,241,234,0.25)" stroke-width="1" />
+        <circle cx="100" cy="180" r="30" fill="none" stroke="rgba(243,241,234,0.35)" stroke-width="1" />
+        <line x1="20" y1="420" x2="180" y2="420" stroke="rgba(243,241,234,0.2)" stroke-width="1" stroke-dasharray="4 6" />
+        <line x1="100" y1="340" x2="100" y2="500" stroke="rgba(243,241,234,0.2)" stroke-width="1" stroke-dasharray="4 6" />
+      </svg>
+      <div class="panel__scanlines"></div>
+      <span class="panel__label">L0B0 — SELECTED WORK</span>
+    </aside>
+
+    <!-- cursor-follow crosshair (desktop only) -->
+    <div class="cursor-follow" id="cursorFollow" aria-hidden="true"></div>
+
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
