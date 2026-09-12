@@ -13,7 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (invertBtn) invertBtn.setAttribute("aria-pressed", String(isInverted));
   }
 
-  applyInverted(localStorage.getItem(STORAGE_KEY) === "true");
+ const stored = localStorage.getItem(STORAGE_KEY);
+ applyInverted(stored === null ? true : stored === "true");
 
   if (invertBtn) {
     invertBtn.addEventListener("click", () => {
