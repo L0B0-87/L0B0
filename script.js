@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = document.getElementById(id);
     if (channelLabel && section) {
       const idx = section.dataset.index || "00";
-      channelLabel.innerHTML = `<b>${idx} / ${channelNames[id] || "INDEX"}</b>`;
+      channelLabel.innerHTML = `<b>${idx} / ${channelNames[id] || "INTRO"}</b>`;
     }
   }
 
