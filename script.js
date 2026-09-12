@@ -3,6 +3,26 @@
 document.addEventListener("DOMContentLoaded", () => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---- color invert toggle ---------------------------------------- */
+  const invertBtn = document.getElementById("invertToggle");
+  const root = document.documentElement;
+  const STORAGE_KEY = "l0b0-inverted";
+
+  function applyInverted(isInverted) {
+    root.classList.toggle("is-inverted", isInverted);
+    if (invertBtn) invertBtn.setAttribute("aria-pressed", String(isInverted));
+  }
+
+  applyInverted(localStorage.getItem(STORAGE_KEY) === "true");
+
+  if (invertBtn) {
+    invertBtn.addEventListener("click", () => {
+      const next = !root.classList.contains("is-inverted");
+      applyInverted(next);
+      localStorage.setItem(STORAGE_KEY, String(next));
+    });
+  }
+
   /* ---- live HUD clock -------------------------------------------- */
   const clockEl = document.getElementById("clock");
 

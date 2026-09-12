@@ -28,12 +28,16 @@
   <!-- persistent HUD readout -->
   <header class="hud-overlay">
     <div class="hud-id">
-      <span class="hud-line">SYS.ID // L0B0-87</span>
+      <button class="invert-toggle" id="invertToggle" type="button" aria-pressed="false" aria-label="Invert colors">
+        <span class="invert-toggle__dot" aria-hidden="true"></span>
+        <span>Invert</span>
+      </button>
+      <span class="hud-line">SYS.ID // L0B0-01</span>
       <span class="hud-line">STATUS <b id="clock">--:--:--</b></span>
     </div>
     <div class="hud-id hud-id--right">
       <span class="hud-line">CHANNEL</span>
-      <span class="hud-line" id="channelLabel"><b>00 / INTRO</b></span>
+      <span class="hud-line" id="channelLabel"><b>00 / INDEX</b></span>
     </div>
   </header>
 
