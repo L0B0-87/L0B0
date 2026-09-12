@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const scroller = document.getElementById("scroller");
 
   const channelNames = {
-    "s-hero": "INDEX",
+    "s-hero": "INTRO",
     "s-music": "MUSIC",
     "s-renders": "RENDERS",
     "s-web": "WEB WORK",
