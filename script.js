@@ -18,38 +18,62 @@ document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
 
-  /* ---- footer year -------------------------------------------- */
-  const yearEl = document.getElementById("year");
-  if (yearEl) {
-    yearEl.textContent = `© ${new Date().getFullYear()}`;
+  /* ---- section tracking: nav dots + HUD channel label ------------ */
+  const sections = Array.from(document.querySelectorAll(".view"));
+  const navDots = Array.from(document.querySelectorAll(".section-nav__dot"));
+  const channelLabel = document.getElementById("channelLabel");
+  const scroller = document.getElementById("scroller");
+
+  const channelNames = {
+    "s-hero": "INDEX",
+    "s-music": "MUSIC",
+    "s-renders": "RENDERS",
+    "s-web": "WEB WORK",
+  };
+
+  function setActive(id) {
+    navDots.forEach((dot) => {
+      dot.classList.toggle("is-active", dot.dataset.target === id);
+    });
+    const section = document.getElementById(id);
+    if (channelLabel && section) {
+      const idx = section.dataset.index || "00";
+      channelLabel.innerHTML = `<b>${idx} / ${channelNames[id] || "INDEX"}</b>`;
+    }
   }
 
-  /* ---- door hover / focus glitch trigger ------------------------- */
-  const doors = document.querySelectorAll(".door");
+  if ("IntersectionObserver" in window && sections.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      { root: scroller, threshold: [0.6] }
+    );
+    sections.forEach((section) => observer.observe(section));
+  }
 
-  doors.forEach((door) => {
-    let resetTimer;
-
-    const trigger = () => {
-      door.classList.remove("is-glitching");
-      // force reflow so the animation can restart on repeated hovers
-      void door.offsetWidth;
-      door.classList.add("is-glitching");
-
-      clearTimeout(resetTimer);
-      resetTimer = setTimeout(() => door.classList.remove("is-glitching"), 420);
-    };
-
-    door.addEventListener("pointerenter", trigger);
-    door.addEventListener("focus", trigger);
+  navDots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      const target = document.getElementById(dot.dataset.target);
+      if (target) {
+        target.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        });
+      }
+    });
   });
 
-  /* ---- cursor-follow crosshair (desktop, pointer-capable only) --- */
+  /* ---- cursor-follow crosshair, replaces system cursor ------------ */
   const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const follower = document.getElementById("cursorFollow");
 
   if (follower) {
-    if (canHover && !reduceMotion) {
+    if (canHover) {
       window.addEventListener("mousemove", (e) => {
         follower.style.opacity = "1";
         follower.style.left = `${e.clientX}px`;
